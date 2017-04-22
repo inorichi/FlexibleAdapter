@@ -143,8 +143,7 @@ public class FastScroller extends FrameLayout {
 				int verticalScrollRange = recyclerView.computeVerticalScrollRange();
 				float proportion = (float) verticalScrollOffset / ((float) verticalScrollRange - height);
 				setBubbleAndHandlePosition(height * proportion);
-				// If scroll amount is small, don't show it
-				if (dy == 0 || Math.abs(dy) > 120) {
+				if (dy != 0) {
 					showScrollbar();
 					hideScrollbar();
 				}
@@ -502,6 +501,11 @@ public class FastScroller extends FrameLayout {
 		}
 	}
 
+	public void hideScrollbarNow() {
+		handle.setVisibility(View.INVISIBLE);
+		bar.setVisibility(View.INVISIBLE);
+	}
+
 	/**
 	 * If enabled, it ignores touches outside handle.
 	 *
@@ -624,6 +628,9 @@ public class FastScroller extends FrameLayout {
 					R.layout.library_fast_scroller_layout,
 					R.id.fast_scroller_bubble,
 					R.id.fast_scroller_handle);
+			if (mFastScroller.isAutoHideEnabled()) {
+				mFastScroller.hideScrollbarNow();
+			}
 			if (DEBUG) Log.i(TAG, "FastScroller initialized");
 		}
 	}
